@@ -9,10 +9,11 @@ dash-labs==1.2.0
 dash-leaflet==0.1.23
 dash-table==5.0.0
 gunicorn==20.1.0
+imblearn
 matplotlib-inline==0.1.6
 numpy
 pandas
 plotly==5.10.0
 scikit-learn
 seaborn
-
+xgboost
