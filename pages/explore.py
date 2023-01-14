@@ -285,4 +285,5 @@ def UpdateStatus(value):
     dependents = X['Dependents'].unique()[0]
     services = [X[i].unique()[0] for i in df.columns[6:15]]
     facturaction = [X[i].unique()[0] for i in sorted(['tenure']+list(df.columns[15:20]))]
-    return status,gender,senior,partner,dependents,*services,*facturaction
+    liste = [status,gender,senior,partner,dependents]+services+facturaction
+    return liste
