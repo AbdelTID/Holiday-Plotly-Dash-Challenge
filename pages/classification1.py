@@ -1,7 +1,6 @@
 # Import required libraries
 import re
 import pathlib
-import urllib.request
 # import dash_table
 from dash import dash_table
 import dash
@@ -12,7 +11,7 @@ import datetime as dt
 import base64
 import io
 import base64
-import seaborn as sn
+import seaborn as sns
 import matplotlib as plt
 import pandas as pd
 import dash_daq as daq
@@ -23,6 +22,7 @@ from dash import html
 import dash_bootstrap_components as dbc
 import dash_daq as daq
 from dash import Dash, Input, Output, callback, dcc, html,State
+
 
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import classification_report  
@@ -43,8 +43,7 @@ from xgboost import XGBClassifier
 
 models = ['SVC', 'Random Forest', 'XGB', 'DT', 'Logistic']
 models_dict = {
-    "Logistic":LogisticRegression(max_iter=1000),'Random Forest':RandomForestClassifier(random_state=42,max_depth=6),
-    "XGB":XGBClassifier(random_state=42,max_depth=6),
+    "Logistic":LogisticRegression(),'Random Forest':RandomForestClassifier(random_state=42,max_depth=6),"XGB":XGBClassifier(random_state=42,max_depth=6),
     "DT":DecisionTreeClassifier(random_state=42,max_depth=6),"SVC":SVC(probability=True)
 }
 FONTSIZE = 15
@@ -57,7 +56,12 @@ dash.register_page(
     title="Customer Churn",
 )
 
+# app = dash.Dash(
+#     __name__, meta_tags=[{"name": "viewport", "content": "width=device-width"}]
+# )
 
+
+# server = app.server
 def wrangle(file):
     df = pd.read_csv(file)
     df["PhoneLine"] = df['MultipleLines'].replace({'No phone service':'No','No':'1','Yes':'>1'})
@@ -138,8 +142,109 @@ for i in binary_feat:
 
 df_proc = pd.get_dummies(df_proc, columns=categorical_feat)
 
+toast_datasplit = html.Div(
+    [     
+        dbc.Toast(
+            html.Div([
+                html.Div('Data set split completed', style={'color': 'green', 'fontSize': 18}),
+            ], style={'marginBottom': 50, 'marginTop': 25}),    
+            id="auto-toast",
+            duration=3000,
+            style={"position": "fixed", "top": 10, "right": 1, "width": 350},
+        ),
+    ]
+)
+
+toast_model = html.Div(
+    [     
+        dbc.Toast(
+            html.Div([
+                html.Div('Model needs optimization', style={'color': 'red', 'fontSize': 18}),
+            ], style={'marginBottom': 50, 'marginTop': 25}),    
+            id="auto-toast-model",
+            duration=4000,
+            style={"position": "fixed", "top": 30, "right": 1, "width": 350},
+        ),
+    ]
+)
+
+""" toast_fileUpload = html.Div(
+    [     
+        dbc.Toast(
+            html.Div([
+                html.Div('Files uploading completed', style={'color': 'green', 'fontSize': 18}),
+            ], style={'marginBottom': 50, 'marginTop': 25}),    
+            id="output-data-upload",
+            duration=4000,
+            style={"position": "fixed", "top": 30, "right": 1, "width": 350},
+        ),
+    ]
+) """
 
 
+upload_layout = html.Div([
+    dcc.Upload(
+        id='upload-data',
+        children=html.Div([
+            'Drag and Drop or ',
+            html.A('Select Files')
+        ]),
+        style={
+            'width': '100%',
+            'height': '60px',
+            'lineHeight': '60px',
+            'borderWidth': '1px',
+            'borderStyle': 'dashed',
+            'borderRadius': '5px',
+            'textAlign': 'center',
+            'margin': '10px'
+        },
+        # Allow multiple files to be uploaded
+        multiple=True
+    ),
+    html.Div(id='output-data-upload'),
+    
+    
+])
+
+
+
+def parse_contents(contents, filename, date):
+    content_type, content_string = contents.split(',')
+
+    decoded = base64.b64decode(content_string)
+    try:
+        if 'csv' in filename:
+            # Assume that the user uploaded a CSV file
+            df = pd.read_csv(
+                io.StringIO(decoded.decode('utf-8')))
+        elif 'xls' in filename:
+            # Assume that the user uploaded an excel file
+            df = pd.read_excel(io.BytesIO(decoded))
+    except Exception as e:
+        print(e)
+        return html.Div([
+            'There was an error processing this file.'
+        ])
+
+    return html.Div([
+        html.H5(filename),
+        html.H6(dt.datetime.fromtimestamp(date)),
+
+        dash_table.DataTable(
+            data=df.to_dict('records'),
+            columns=[{'name': i, 'id': i} for i in df.columns]
+        ),
+
+        html.Hr(),  # horizontal line
+
+        # For debugging, display the raw contents provided by the web browser
+        html.Div('Raw Content'),
+        html.Pre(contents[0:200] + '...', style={
+            'whiteSpace': 'pre-wrap',
+            'wordBreak': 'break-all'
+        })
+    ])
 
 
 
@@ -208,7 +313,7 @@ layout = html.Div(
                         dcc.Dropdown(
                             id="select_models",
                             options = [{'label':x, 'value':x} for x in models],
-                            value = 'Random Forest',
+                            value = 'Logistic',
                             # multi=True,
                             clearable=False,
                             className="text-primary",
@@ -508,6 +613,29 @@ layout = html.Div(
                         ],className="text-center"
                         ),
                        html.Div([dbc.Tooltip("Info", target="icon_id",placement='bottom')], className="text-center"),
+                       dbc.Modal([
+                                    dbc.ModalHeader(dbc.ModalTitle("Information")),
+                                    dbc.ModalBody(
+                                        dcc.Markdown('''
+                                        - Once [No] is selected for `Phone Service` and `Internet Service`, the options for `Multiple Lines` and other `Internet-related services` are automatically disabled and [No P-S] and [No I-S] are automatically selected, respectively.
+
+                                        - The variable `Total Charges` was not included in any model due to its high correlation with `Tenure` and `Monthly Charges`  (TotalCharges` = `tenure` x `MonthlyCharges`). 
+
+                                        - Click on `Submit` to predict churn based on the selected model and input information. The model selected at the top will be used for the prediction.
+
+                                        - Note  😉😉:
+
+                                            To improve recall score, consider using a model such as Random Forest with an under-sampling technique
+                                        
+                                                                               
+                                        ''')
+                                    ),
+                                ],
+                                id="info-modale",
+                                size="lg",
+                                is_open=False,
+                                # contentClassName='modalcontent1',
+                                ),
 
                         html.Br(),
                         html.Hr(),
@@ -585,7 +713,30 @@ layout = html.Div(
     style={"display": "flex", "flex-direction": "column"},
 )
 
+#----------------------------------------- Background color -------------------------------
+@callback(
+   Output("info-modale", "content_class_name"),
+   Input("color_bg", 'data'),
+)
 
+def toggle_theme(data):
+    if str(data)=="#fff":
+        th = 'modalcontent1'
+    else:
+        th = 'modalcontent2'
+    return th
+
+
+
+# ---------------------------------------- Clear filter -------------------------------------------
+@callback(Output("info-modale", "is_open"),
+    Input("icon_id", "n_clicks"),
+    State("info-modale", "is_open")
+)
+def toggle_modal(n_clicks, is_open):
+    if (n_clicks):
+        return not is_open
+    return is_open
 
 @callback(
    

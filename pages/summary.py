@@ -24,7 +24,7 @@ layout = dbc.Container(
             - `Customers`: Display each customer information.
             - `Insights`: This section gives an overview of customers behavior. 
             - `Exploratory`: This section shows relationship between churn and monthly charges within customer caracteristiques.
-            - `Classification`: This section provides 
+            - `Classification`: This section provides  model building and Churn prediction
             - `Summary`: Give a summary of the app. You are here 😁😄😅.
             - `About`: Who I am?.
 
@@ -74,7 +74,7 @@ layout = dbc.Container(
             html.Hr(),
 
             dcc.Markdown('''
-           Our analysis of customer churn data has identified several trends and patterns that may be contributing to churn. Customers who are on month-to-month contracts and those who are dissatisfied with their experience with our company are more likely to churn. Additionally, customers who pay their bills using electronic checks or automatic bank transfers are less likely to churn. By implementing the following recommendations, we believe we can reduce customer churn and improve customer retention:
+           Our analysis of customer churn data has identified several trends and patterns that may be contributing to churn. Customers who are on month-to-month contracts and those who are using fiber optic as internet services are more likely to churn. Additionally, customers who subscribe to online services and technical support services are less likely to churn. By implementing the following recommendations, we believe we can reduce customer churn and improve customer retention:
            
            '''),
 
@@ -87,8 +87,9 @@ layout = dbc.Container(
             dcc.Markdown('''
             - Customers on month-to-month contracts are more likely to churn
             - 25% of churned customers leave within the first two months, while 50% leave within the first 10 months.
-            - Customers who are dissatisfied with their experience are more likely to churn
-            - Customers who pay their bills using electronic checks or automatic bank transfers are less likely to churn
+            - Customers using Fiber optic as Internet Service are more likely to churn
+            - A high-risk profile for churn is a customer on a month-to-month contract, using Fiber optic as their Internet Service, with electronic check as their payment method, and who do not subscribe to online services and technical support services.
+            - A low-risk profile for churn is a customer on a two-year contract, using DSL as their Internet Service, and who do subscribe to online services or technical support services.
            '''),
            html.Br(),
 
@@ -99,8 +100,8 @@ layout = dbc.Container(
             dcc.Markdown('''
           - Offer incentives for customers to sign longer-term contracts
           - Consider offering three month contracts to potentially reduce rapid customer churn and retain them for a longer period of time.
-          - Invest in customer service training and improve service offerings to increase customer satisfaction
-          - Offer more flexible payment options, such as electronic checks and automatic bank transfers
+          - Check the satisfaction of customers using Fiber optic as their Internet Service
+          - Offering package services that include a combination of services that customers may find interesting or valuable, but do not exceed a certain amount.
            '''),
 
           html.Br(),
@@ -112,7 +113,6 @@ layout = dbc.Container(
             dcc.Markdown('''
           - Conduct a pilot program to test the effectiveness of offering incentives for customers to sign longer-term contracts
           - Review and update customer service training and service offerings based on customer feedback
-          - Implement electronic check and automatic bank transfer payment options
            '''),
                      html.Br(),
 

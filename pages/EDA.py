@@ -15,10 +15,8 @@ load_figure_template("minty")
 
 import pathlib
 import re
-import math
 import numpy as np
 import pandas as pd
-from datetime import datetime
 import seaborn as sns
 import matplotlib.pyplot as plt
 # plt.style.use('fivethirtyeight') # default 
@@ -195,6 +193,20 @@ layout = dbc.Container(
             ], className="p-3"
         ),                           
        
+        html.Br(),
+
+        html.H5("Note:"),
+
+        html.Hr(),
+
+            
+
+        html.Div([dcc.Markdown('''
+            - Churning customers tend to pay on average more than valuable customers.   
+
+            - More than 70% of churning customers paye above the average monthlcharges 65$         
+
+           ''')],style={'margin-left':50}),
        
     ]
 )
