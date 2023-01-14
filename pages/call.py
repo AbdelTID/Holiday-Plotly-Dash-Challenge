@@ -14,8 +14,6 @@ dash.register_page(
 from dash import dcc
 from dash import html
 import pathlib
-import ipywidgets
-from glob import glob
 import re
 import math
 import numpy as np
@@ -28,7 +26,6 @@ import plotly.figure_factory as ff
 from dash import Dash, Input, Output, callback, dcc, html,State
 from plotly.subplots import make_subplots
 from dash import dash_table
-from jupyter_dash import JupyterDash
 
 def wrangle(file):
     df = pd.read_csv(file)
