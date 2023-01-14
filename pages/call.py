@@ -1005,8 +1005,8 @@ def filter_data(gender, SeniorCitizen, Partner, Dependents, tenure,
             [ {"label": v, "value": v ,'disabled': (v not in df_filter[i].unique()) and (df[i].nunique()-df_filter[i].nunique()==1) } for v in df[i].unique()] for i in qual_var
         ]
         
-
-    return df_filter.to_json(date_format='iso',orient='split'), dis, *checklist_update
+    liste = [df_filter.to_json(date_format='iso',orient='split'), dis] +checklist_update
+    return liste
 
 
 #------------------------------------ clear-filter----------------------------------------------
