@@ -23,7 +23,6 @@ A Plotly Dash app that utilizes Plotly's data visualization  to provide a clear 
 
 ### About the App:
 
-![](https://github.com/AbdelTID/Holiday-Plotly-Dash-Challenge/blob/main/demo.gif)
 ![Semantic description of image](wlc_image.png "Welcome page Churn Dash-App")
 
 In order to run the app locally, please create a virtual environment with the provided `requirements.txt`. Then simply run `app.py`, open your browser and go to `http://127.0.0.1:8050/`
