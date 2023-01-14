@@ -14,7 +14,6 @@ dash.register_page(
 load_figure_template("minty")
 
 import pathlib
-import ipywidgets
 from glob import glob
 import re
 import math
