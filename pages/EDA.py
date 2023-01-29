@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import dash
 from dash_bootstrap_templates import load_figure_template
+import dash_loading_spinners as dls
 
 
 # dash.register_page(__name__, path='/', name='EDA')
@@ -165,7 +166,10 @@ layout = dbc.Container(
             [
                 dbc.Col(
                     [dbc.Card(
-                        dbc.CardBody(html.Div(id="uni_chart")), className="card-header",id="bg_id9",
+                        dbc.CardBody(html.Div( dls.Hash(id="uni_chart"),
+                                                color="#435278",
+                                                speed_multiplier=2,
+                                                size=100,),), className="card-header",id="bg_id9",
                     ),
                    ],
                    className="col-md-12 col-lg-5  card-chart-contain",
@@ -173,7 +177,9 @@ layout = dbc.Container(
                 ),
                 dbc.Col(
                     [dbc.Card(
-                        dbc.CardBody(html.Div(id="bi_chart")), className="card-header",id="bg_id10",
+                        dbc.CardBody(html.Div( dls.Hash(id="bi_chart"),color="#435278",
+                        speed_multiplier=2,
+                        size=100,),), className="card-header",id="bg_id10",
                     ),
                     ],
                     className="col-md-12 col-lg-7  card-chart-contain",
@@ -187,7 +193,9 @@ layout = dbc.Container(
             [     
                 dbc.Col(
                     dbc.Card(
-                        dbc.CardBody(html.Div(id="tri_chart")), className="card-header",id="bg_id11",
+                        dbc.CardBody(html.Div( dls.Hash(id="tri_chart"),color="#435278",
+                        speed_multiplier=2,
+                        size=100,),), className="card-header",id="bg_id11",
                     ),
                 ),
             ], className="p-3"
