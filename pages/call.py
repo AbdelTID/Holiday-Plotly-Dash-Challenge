@@ -26,6 +26,8 @@ import plotly.figure_factory as ff
 from dash import Dash, Input, Output, callback, dcc, html,State
 from plotly.subplots import make_subplots
 from dash import dash_table
+import dash_loading_spinners as dls
+
 
 def wrangle(file):
     df = pd.read_csv(file)
@@ -281,11 +283,14 @@ layout = html.Div(
                                     [
                                         html.Div(
                                             [
-                                                dcc.Graph(id="c-chart",figure={
+                                                dls.Hash(dcc.Graph(id="c-chart",figure={
                                                     "layout": {"title": "Contract Chart",
                                                     "height": 280,
                                                     }}
-                                                )
+                                                ),color="#435278",
+                        speed_multiplier=2,
+                        size=50,
+                    ),
                                             ],
                                             className="card-head",
                                             id="bg_id3",
@@ -301,9 +306,12 @@ layout = html.Div(
                       
 
                         html.Div(
-                            [dcc.Graph(id="service-chart",figure={
+                            [dls.Hash(dcc.Graph(id="service-chart",figure={
                                         "layout": {"title": "Service Chart",
-                                        "height": 340, }})
+                                        "height": 340, }}),color="#435278",
+                        speed_multiplier=2,
+                        size=50,
+                    ),
                             ],
                             className="card-head",
                             id="bg_id4",
@@ -312,9 +320,12 @@ layout = html.Div(
                         
 
                         html.Div(
-                            [dcc.Graph(id="rate-chart",figure={
+                            [dls.Hash(dcc.Graph(id="rate-chart",figure={
                                         "layout": {"title": "rate Chart",
-                                        "height": 320, }})
+                                        "height": 320, }}),color="#435278",
+                        speed_multiplier=2,
+                        size=50,
+                    ),
                             ],
                             id="bg_id5",
                             className="card-head",
@@ -813,9 +824,12 @@ layout = html.Div(
                 html.Div(
                     [
                         html.Div(
-                            [dcc.Graph(id="rate-two-chart",figure={
+                            [dls.Hash(dcc.Graph(id="rate-two-chart",figure={
                                 "layout": {"title": "two rate Chart",
-                                "height": 300, }})
+                                "height": 300, }}),color="#435278",
+                        speed_multiplier=2,
+                        size=50,
+                    ),
                             ],
                             className="card-head",
                             id="bg_id8",
