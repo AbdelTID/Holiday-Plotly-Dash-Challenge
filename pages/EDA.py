@@ -169,7 +169,7 @@ layout = dbc.Container(
                         dbc.CardBody(html.Div( dls.Hash(id="uni_chart"),
                                                 color="#435278",
                                                 speed_multiplier=2,
-                                                size=100,),), className="card-header",id="bg_id9",
+                                                size=50,),), className="card-header",id="bg_id9",
                     ),
                    ],
                    className="col-md-12 col-lg-5  card-chart-contain",
@@ -179,7 +179,7 @@ layout = dbc.Container(
                     [dbc.Card(
                         dbc.CardBody(html.Div( dls.Hash(id="bi_chart"),color="#435278",
                         speed_multiplier=2,
-                        size=100,),), className="card-header",id="bg_id10",
+                        size=50,),), className="card-header",id="bg_id10",
                     ),
                     ],
                     className="col-md-12 col-lg-7  card-chart-contain",
@@ -195,7 +195,7 @@ layout = dbc.Container(
                     dbc.Card(
                         dbc.CardBody(html.Div( dls.Hash(id="tri_chart"),color="#435278",
                         speed_multiplier=2,
-                        size=100,),), className="card-header",id="bg_id11",
+                        size=50,),), className="card-header",id="bg_id11",
                     ),
                 ),
             ], className="p-3"
