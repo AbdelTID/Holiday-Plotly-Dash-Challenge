@@ -22,6 +22,8 @@ from dash import html
 import dash_bootstrap_components as dbc
 import dash_daq as daq
 from dash import Dash, Input, Output, callback, dcc, html,State
+import dash_loading_spinners as dls
+
 
 
 from sklearn.linear_model import LogisticRegression
@@ -377,7 +379,10 @@ layout = html.Div(
                         html.Div(
                             [
                                 html.Div(
-                                    [dcc.Graph(id="main_graph")],
+                                    [dls.Hash(dcc.Graph(id="main_graph"),color="#435278",
+                        speed_multiplier=2,
+                        size=50,
+                    ),],
                                     # className="card-chart-contain col-md-12 col-lg-7",
                                 ),
                                 # html.Div(
@@ -403,15 +408,24 @@ layout = html.Div(
         html.Div(
             [
                 html.Div(
-                        [dcc.Graph(id="fig_confusion", figure={})],
+                        [dls.Hash(dcc.Graph(id="fig_confusion", figure={}),color="#435278",
+                        speed_multiplier=2,
+                        size=50,
+                    ),],
                         className="card-chart-contain col-md-12 col-lg-4",
                 ), 
                 html.Div(
-                    [dcc.Graph(id="fig_roc")],
+                    [dls.Hash(dcc.Graph(id="fig_roc"),color="#435278",
+                        speed_multiplier=2,
+                        size=50,
+                    ),],
                     className="card-chart-contain col-md-12 col-lg-4",
                 ),
                 html.Div(
-                    [dcc.Graph(id="fig_precision")],
+                    [dls.Hash(dcc.Graph(id="fig_precision"),color="#435278",
+                        speed_multiplier=2,
+                        size=50,
+                    ),],
                     className="card-chart-contain col-md-12 col-lg-4",
                 ),
            
